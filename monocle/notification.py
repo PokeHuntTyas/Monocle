@@ -791,7 +791,7 @@ class Notifier:
         data = {
             'type': "gym",
             'message': {
-                m.get("external_id", "external_id"): fort['external_id'],
+                m.get("gym_id", "gym_id"): fort['external_id'],
                 m.get("latitude", "latitude"): fort['lat'],
                 m.get("longitude", "longitude"): fort['lon'],
                 m.get("team", "team"): fort['team'],
