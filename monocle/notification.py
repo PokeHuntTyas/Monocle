@@ -801,7 +801,7 @@ class Notifier:
                 m.get("slots_available", "slots_available"): fort['slots_available'],
                 m.get("gym_name", "gym_name"): gym_name,
                 m.get("gym_url", "gym_url"): gym_url,
-                m.get("gym_defenders", "gym_defenders"): gym,
+                m.get("gym_defenders", "gym_defenders"): gym['gym_defenders'],
                 m.get("region", "region"): conf.AREA_NAME,
 
             }
