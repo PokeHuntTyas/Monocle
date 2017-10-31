@@ -780,6 +780,36 @@ class Notifier:
         else:
             return self.cleanup(unique_id, cache_handle)
 
+    async def webhook_gym(self, fort, gym):
+        if not WEBHOOK:
+            return
+        if fort['external_id'] in FORT_CACHE.gym_names:
+            gym_name, gym_url = FORT_CACHE.gym_names[fort['external_id']]
+        else:
+            gym_name, gym_url = None, None
+        m = conf.WEBHOOK_GYM_MAPPING
+        data = {
+            'type': "gym",
+            'message': {
+                m.get("external_id", "external_id"): fort['external_id'],
+                m.get("latitude", "latitude"): fort['lat'],
+                m.get("longitude", "longitude"): fort['lon'],
+                m.get("team", "team"): fort['team'],
+                m.get("guard_pokemon_id", "guard_pokemon_id"): fort['guard_pokemon_id'],
+                m.get("last_modified", "last_modified"): fort['last_modified'],
+                m.get("is_in_battle", "is_in_battle"): fort['is_in_battle'],
+                m.get("slots_available", "slots_available"): fort['slots_available'],
+                m.get("gym_name", "gym_name"): gym_name,
+                m.get("gym_url", "gym_url"): gym_url,
+                m.get("gym_defenders", "gym_defenders"): gym,
+                m.get("region", "region"): conf.AREA_NAME,
+
+            }
+        }
+        result = await self.wh_send(SessionManager.get(), data)
+        self.last_notification = monotonic()
+        self.sent += 1
+        return result
 
     async def webhook_raid(self, raid, fort):
         if not WEBHOOK:
@@ -809,6 +839,7 @@ class Notifier:
                 m.get("base64_gym_id", "base64_gym_id"): b64encode(raid['fort_external_id'].encode('utf-8')),
                 m.get("gym_name", "gym_name"): gym_name,
                 m.get("gym_url", "gym_url"): gym_url,
+                m.get("region", "region"): conf.AREA_NAME,
             }
         }
 
@@ -942,6 +973,8 @@ class Notifier:
                 "spawnpoint_id": pokemon['spawn_id'],
                 "disappear_time": ts,
                 "time_until_hidden_ms": tth * 1000,
+                "pokehunt_id": pokemon['pokehunt_id'],
+                "region": conf.AREA_NAME,
                 "pokemon_level": pokemon.get('level'),
                 "cp": pokemon.get('cp'),
                 "height": pokemon.get('height'),

@@ -1,4 +1,5 @@
 import traceback
+import uuid
 from asyncio import gather, Lock, Semaphore, sleep, CancelledError
 from collections import deque
 from time import time, monotonic
@@ -922,7 +923,6 @@ class Worker:
                     continue
 
                 pokemon_seen += 1
-
                 normalized = self.normalize_pokemon(pokemon, username=self.username)
                 normalized['time_of_day'] = map_objects.time_of_day
                 seen_target = seen_target or normalized['spawn_id'] == spawn_id
@@ -1063,6 +1063,8 @@ class Worker:
                             gym = await self.gym_get_info(normalized_fort)
                             if gym:
                                 self.log.info('Got gym info for {}', normalized_fort["name"])
+                        if conf.NOTIFY_GYMS_WEBHOOK:
+                            LOOP.create_task(self.notifier.webhook_gym(normalized_fort, gym))
                         db_proc.add(normalized_fort)
 
                     if fort.HasField('raid_info'):
@@ -1769,6 +1771,7 @@ class Worker:
             'form': raw.pokemon_data.pokemon_display.form,
             'username': username,
             'despawn': despawn,
+            'pokehunt_id':  uuid.uuid4().hex,
         }
         if tth > 0 and tth <= 90000:
             norm['expire_timestamp'] = round((tsm + tth) / 1000)

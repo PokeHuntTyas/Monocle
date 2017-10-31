@@ -110,6 +110,7 @@ _valid_types = {
     'NEVER_NOTIFY_IDS': set_sequence_range,
     'NO_DB_INSERT_IDS': set_sequence_range,
     'NOTIFY': bool,
+    'NOTIFY_GYMS_WEBHOOK': bool,
     'NOTIFY_RAIDS': bool,
     'NOTIFY_RAIDS_WEBHOOK': bool,
     'NOTIFY_IDS': set_sequence_range,
@@ -171,6 +172,7 @@ _valid_types = {
     'TZ_OFFSET': Number,
     'UVLOOP': bool,
     'WEBHOOKS': set_sequence,
+    'WEBHOOK_GYM_MAPPING': dict,
     'WEBHOOK_RAID_MAPPING': dict, 
 }
 
@@ -258,6 +260,7 @@ _defaults = {
     'NEVER_NOTIFY_IDS': (),
     'NO_DB_INSERT_IDS': None,
     'NOTIFY': False,
+    'NOTIFY_GYMS_WEBHOOK': False,
     'NOTIFY_RAIDS': False,
     'NOTIFY_RAIDS_WEBHOOK': True,
     'NOTIFY_IDS': None,
@@ -320,6 +323,7 @@ _defaults = {
     'UVLOOP': True,
     'WEBHOOKS': None,
     'WEBHOOK_RAID_MAPPING': {},
+    'WEBHOOK_GYM_MAPPING': {}
 }
 
 
