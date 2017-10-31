@@ -1063,8 +1063,8 @@ class Worker:
                             gym = await self.gym_get_info(normalized_fort)
                             if gym:
                                 self.log.info('Got gym info for {}', normalized_fort["name"])
-                        if conf.NOTIFY_GYMS_WEBHOOK:
-                            LOOP.create_task(self.notifier.webhook_gym(normalized_fort, gym))
+                                if conf.NOTIFY_GYMS_WEBHOOK:
+                                    LOOP.create_task(self.notifier.webhook_gym(normalized_fort, gym))
                         db_proc.add(normalized_fort)
 
                     if fort.HasField('raid_info'):
