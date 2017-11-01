@@ -787,10 +787,10 @@ class Notifier:
             gym_name, gym_url = FORT_CACHE.gym_names[fort['external_id']]
         else:
             gym_name, gym_url = None, None
-	if gym is None:
-		gymdefenders = None
-	else:
-		gymdefenders = gym['gym_defenders']	
+        if gym is None:
+            gymdefenders = None
+        else:
+            gymdefenders = gym['gym_defenders']	
         m = conf.WEBHOOK_GYM_MAPPING
         data = {
             'type': "gym",
