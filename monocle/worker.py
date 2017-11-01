@@ -1056,8 +1056,8 @@ class Worker:
                     normalized_fort = self.normalize_gym(fort)
                     if fort not in FORT_CACHE:
                         FORT_CACHE.add(normalized_fort)
-			if conf.NOTIFY_GYMS_WEBHOOK:
-				LOOP.create_task(self.notifier.webhook_gym(normalized_fort))
+                        if conf.NOTIFY_GYMS_WEBHOOK:
+                                LOOP.create_task(self.notifier.webhook_gym(normalized_fort))
                         if (priority_fort and
                                 priority_fort.id == fort.id and
                                 time() > self.next_gym and self.smart_throttle(1)):
