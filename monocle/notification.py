@@ -780,13 +780,17 @@ class Notifier:
         else:
             return self.cleanup(unique_id, cache_handle)
 
-    async def webhook_gym(self, fort, gym):
+    async def webhook_gym(self, fort, gym=None):
         if not WEBHOOK:
             return
         if fort['external_id'] in FORT_CACHE.gym_names:
             gym_name, gym_url = FORT_CACHE.gym_names[fort['external_id']]
         else:
             gym_name, gym_url = None, None
+	if gym is None:
+		gymdefenders = None
+	else:
+		gymdefenders = gym['gym_defenders']	
         m = conf.WEBHOOK_GYM_MAPPING
         data = {
             'type': "gym",
