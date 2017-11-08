@@ -1233,25 +1233,16 @@ class Worker:
                     params={'pokemon_id': pokemon['pokemon_id'],
                             'encounter_id': pokemon['encounter_id'],
                             'spawn_point_id': spawn_id,
+                            'pokehunt_id': pokemon['pokehunt_id'],
                             'latitude': str(pokemon['lat']),
                             'longitude': str(pokemon['lon'])},
                     timeout=conf.PGSCOUT_TIMEOUT) as resp:
                 response = await resp.json(loads=json_loads)
-            try:
-                pokemon['move_1'] = response['move_1']
-                pokemon['move_2'] = response['move_2']
-                pokemon['individual_attack'] = response.get('iv_attack',0)
-                pokemon['individual_defense'] = response.get('iv_defense',0)
-                pokemon['individual_stamina'] = response.get('iv_stamina',0)
-                pokemon['height'] = response['height']
-                pokemon['weight'] = response['weight']
-                pokemon['gender'] = response['gender']
-                pokemon['form'] = response.get('form')
-                pokemon['cp'] = response.get('cp')
-                pokemon['level'] = calc_pokemon_level(response.get('cp_multiplier'))
+            if 'error' not in response:
                 return True
-            except KeyError:
-                self.log.error('Missing Pokemon data in PGScout response.')
+            else
+                self.log.error('PGScout encounter failed')
+                return False
         except Exception:
             self.log.exception('PGScout Request Error.')
         return False
