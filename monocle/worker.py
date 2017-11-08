@@ -1240,7 +1240,7 @@ class Worker:
                 response = await resp.json(loads=json_loads)
             if 'error' not in response:
                 return True
-            else
+            else:
                 self.log.error('PGScout encounter failed')
                 return False
         except Exception:
